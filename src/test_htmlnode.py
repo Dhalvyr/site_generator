@@ -87,3 +87,6 @@ class TestHTMLNode(unittest.TestCase):
             grandparent.to_html(),
             "<p><div><b>child</b></div><div><i>child2</i></div></p>"
         )
+
+if __name__ == "__main__":
+    unittest.main()
