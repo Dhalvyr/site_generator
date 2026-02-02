@@ -1,5 +1,5 @@
 import unittest
-from functions import split_nodes_delimiter
+from functions import split_nodes_delimiter, extract_markdown_images, extract_markdown_links
 from textnode import TextNode, TextType
 
 class TestSplitNodesDelimiter(unittest.TestCase):
@@ -56,6 +56,21 @@ class TestSplitNodesDelimiter(unittest.TestCase):
                 TextNode("**This is all bold**", TextType.BOLD)
             ]
         )
+
+class TestExtractLinks(unittest.TestCase):
+    def test_extract_markdown_images(self):
+        matches = extract_markdown_images(
+            "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png)"
+        )
+        self.assertListEqual([("image", "https://i.imgur.com/zjjcJKZ.png")], matches)
+
+    def test_extract_markdown_links(self):
+        matches = extract_markdown_links(
+            "This is text with a link [to boot dev](https://www.boot.dev)"
+        )
+        self.assertEqual([("to boot dev", "https://www.boot.dev")], matches)
+
+
 
 if __name__ == "__main__":
     unittest.main()
