@@ -30,6 +30,9 @@ def extract_markdown_links(text):
 def split_nodes_image(old_nodes):
     new_nodes = []
     for old_node in old_nodes:
+        if old_node.text_type != TextType.TEXT:
+            new_nodes.append(old_node)
+            continue
         image = extract_markdown_images(old_node.text)
         if len(image) == 0:
             new_nodes.append(old_node)
@@ -49,6 +52,9 @@ def split_nodes_image(old_nodes):
 def split_nodes_link(old_nodes):
     new_nodes = []
     for old_node in old_nodes:
+        if old_node.text_type != TextType.TEXT:
+            new_nodes.append(old_node)
+            continue
         link = extract_markdown_links(old_node.text)
         if len(link) == 0:
             new_nodes.append(old_node)
@@ -62,3 +68,23 @@ def split_nodes_link(old_nodes):
         if remaining_text != "":
             new_nodes.append(TextNode(remaining_text, TextType.TEXT))
     return new_nodes
+
+def text_to_textnodes(text):
+    new_nodes = [TextNode(text, TextType.TEXT)]
+    new_nodes = split_nodes_delimiter(new_nodes, "**", TextType.BOLD)
+    new_nodes = split_nodes_delimiter(new_nodes, "_", TextType.ITALIC)
+    new_nodes = split_nodes_delimiter(new_nodes, "`", TextType.CODE)
+    new_nodes = split_nodes_image(new_nodes)
+    new_nodes = split_nodes_link(new_nodes)
+    return new_nodes
+
+def markdown_to_blocks(markdown):
+    list_of_blocks = markdown.split("\n\n")
+    filtered_blocks = []
+    for block in list_of_blocks:
+        block = block.strip()
+        if block == "":
+            continue
+        filtered_blocks.append(block)
+    return filtered_blocks
+    
