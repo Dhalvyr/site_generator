@@ -1,5 +1,6 @@
 import re
 from textnode import TextNode, TextType
+from enum import Enum
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
@@ -77,14 +78,3 @@ def text_to_textnodes(text):
     new_nodes = split_nodes_image(new_nodes)
     new_nodes = split_nodes_link(new_nodes)
     return new_nodes
-
-def markdown_to_blocks(markdown):
-    list_of_blocks = markdown.split("\n\n")
-    filtered_blocks = []
-    for block in list_of_blocks:
-        block = block.strip()
-        if block == "":
-            continue
-        filtered_blocks.append(block)
-    return filtered_blocks
-    
