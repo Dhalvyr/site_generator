@@ -7,6 +7,7 @@ from functions import (
     split_nodes_image, 
     split_nodes_link, 
     text_to_textnodes,
+    extract_title
     )
 
 class TestSplitNodesDelimiter(unittest.TestCase):
@@ -166,6 +167,24 @@ class TestTextToTextNodes(unittest.TestCase):
             node
         )
 
+class TestExtractTitle(unittest.TestCase):
+    def test_simple_case(self):
+        markdown = "# This is the title!"
+        self.assertEqual(
+            extract_title(markdown),
+            "This is the title!"
+        )
+    
+    def test_no_title(self):
+        markdown = "This is not a valid title"
+        self.assertRaises(Exception, extract_title, markdown)
+
+    def test_several_headers(self):
+        markdown = "This is not the title\n## Nor is this.\n# This is the title."
+        self.assertEqual(
+            extract_title(markdown),
+            "This is the title."
+        )
 
 if __name__ == "__main__":
     unittest.main()
