@@ -2,10 +2,10 @@ import os
 import shutil
 
 def copy_static_to_public(static_dir, public_dir):
-    print("Deleting content of Public.")
+    print("Deleting content of Docs.")
     if os.path.exists(public_dir):
         shutil.rmtree(public_dir)
-    print("copying content of static into public")
+    print("copying content of static into docs")
     copy_directories(static_dir, public_dir)
 
 def copy_directories(origin_directory, target_directory):
